@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LuminaCalc</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="glass-container">
+        <header class="app-header">
+            <nav class="tabs">
+                <button class="tab-btn active" data-tab="algebra">Algebra</button>
+                <button class="tab-btn" data-tab="trigonometry">Trig</button>
+                <button class="tab-btn" data-tab="calculus">Calculus</button>
+                <button class="tab-btn" data-tab="graphing">Graph</button>
+                <button class="tab-btn" data-tab="converter">Conv</button>
+                <button class="tab-btn" data-tab="solvers">Solve</button>
+            </nav>
+            <div class="settings-controls">
+                <label class="toggle-switch">
+                    <input type="checkbox" id="toggle-haptics">
+                    <span class="slider"></span>
+                    <span class="label-text">Sound</span>
+                </label>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="toggle-vibrate">
+                    <span class="slider"></span>
+                    <span class="label-text">Vibe</span>
+                </label>
+            </div>
+        </header>
+
+        <main class="calculator-body">
+            <!-- Display Screen -->
+            <div class="display-container">
+                <div class="history-display" id="historyDisplay"></div>
+                <input type="text" class="main-display" id="mainDisplay" placeholder="0" readonly>
+            </div>
+
+            <!-- Split Layout Content -->
+            <div class="split-layout">
+
+                <!-- LEFT PANEL: Dynamic Content (Tabs) -->
+                <div class="dynamic-panel">
+
+                    <!-- ALGEBRA -->
+                    <div class="keypad active" id="algebra-keypad">
+                        <button class="btn btn-func" data-val="pow">xⁿ</button>
+                        <button class="btn btn-func" data-val="sqrt">√</button>
+                        <button class="btn btn-func" data-val="nroot">ⁿ√</button>
+                        <button class="btn btn-func" data-val="abs">|x|</button>
+
+                        <button class="btn btn-func" data-val="log">log</button>
+                        <button class="btn btn-func" data-val="ln">ln</button>
+                        <button class="btn btn-func" data-val="fact">!</button>
+                        <button class="btn btn-const" data-val="i">i</button>
+
+                        <button class="btn btn-op" data-val="<">&lt;</button>
+                        <button class="btn btn-op" data-val=">">&gt;</button>
+                        <button class="btn btn-op" data-val="<=">≤</button>
+                        <button class="btn btn-op" data-val=">=">≥</button>
+
+                        <button class="btn btn-var" data-val="x">x</button>
+                        <button class="btn btn-var" data-val="y">y</button>
+                        <button class="btn btn-op" data-val=",">,</button>
+                        <button class="btn btn-eq" data-val="solve">Solve</button>
+                    </div>
+
+                    <!-- TRIGONOMETRY -->
+                    <div class="keypad" id="trigonometry-keypad">
+                        <div class="toggle-container">
+                            <button class="toggle-btn active" id="degBtn">DEG</button>
+                            <button class="toggle-btn" id="radBtn">RAD</button>
+                        </div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+
+                        <button class="btn btn-func" data-val="sin">sin</button>
+                        <button class="btn btn-func" data-val="cos">cos</button>
+                        <button class="btn btn-func" data-val="tan">tan</button>
+                        <button class="btn btn-const" data-val="pi">π</button>
+
+                        <button class="btn btn-func" data-val="csc">csc</button>
+                        <button class="btn btn-func" data-val="sec">sec</button>
+                        <button class="btn btn-func" data-val="cot">cot</button>
+                        <button class="btn btn-func" data-val="e">e</button>
+
+                        <button class="btn btn-func" data-val="asin">sin⁻¹</button>
+                        <button class="btn btn-func" data-val="acos">cos⁻¹</button>
+                        <button class="btn btn-func" data-val="atan">tan⁻¹</button>
+                        <button class="btn btn-eq" data-val="=">=</button>
+                    </div>
+
+                    <!-- CALCULUS -->
+                    <div class="keypad" id="calculus-keypad">
+                        <button class="btn btn-func" data-val="deriv">d/dx</button>
+                        <button class="btn btn-func" data-val="integ">∫</button>
+                        <button class="btn btn-func" data-val="definteg">∫aᵇ</button>
+                        <button class="btn btn-func" data-val="limit">lim</button>
+
+                        <button class="btn btn-func" data-val="sum">Σ</button>
+                        <button class="btn btn-const" data-val="inf">∞</button>
+                        <button class="btn btn-func" data-val="nPr">nPr</button>
+                        <button class="btn btn-func" data-val="nCr">nCr</button>
+                    </div>
+
+                    <!-- GRAPHING -->
+                    <div class="keypad" id="graphing-keypad">
+                        <div class="graph-controls">
+                            <button class="action-btn" id="graph-zoom-in">+</button>
+                            <button class="action-btn" id="graph-zoom-out">-</button>
+                            <button class="action-btn" id="graph-reset">⟲</button>
+                        </div>
+                        <div class="canvas-wrapper">
+                            <canvas id="graphCanvas" width="350" height="350"></canvas>
+                        </div>
+                        <div class="graph-input-container">
+                            <span>y = </span>
+                            <input type="text" id="graph-function" placeholder="x^2">
+                            <button id="plot-btn">Plot</button>
+                        </div>
+                    </div>
+
+                    <!-- CONVERTER -->
+                    <div class="converter-view" id="converter-view">
+                        <div class="converter-card">
+                            <h3>Unit Converter</h3>
+                            <div class="converter-row">
+                                <select id="conv-category">
+                                    <option value="length">Length</option>
+                                    <option value="mass">Mass</option>
+                                    <option value="temp">Temperature</option>
+                                </select>
+                            </div>
+                            <div class="converter-row">
+                                <input type="number" id="conv-from-val" placeholder="0">
+                                <select id="conv-from-unit"></select>
+                            </div>
+                            <div class="converter-arrow">↓</div>
+                            <div class="converter-row">
+                                <input type="number" id="conv-to-val" readonly>
+                                <select id="conv-to-unit"></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SOLVERS -->
+                    <div class="solvers-view" id="solvers-view">
+                        <div class="solver-categories">
+                            <button class="solver-card" data-solver="linear">
+                                <h3>Linear Eq</h3>
+                                <p>ax + b = c</p>
+                            </button>
+                            <button class="solver-card" data-solver="quadratic">
+                                <h3>Quadratic</h3>
+                                <p>ax² + bx + c = 0</p>
+                            </button>
+                            <button class="solver-card" data-solver="system">
+                                <h3>System</h3>
+                                <p>{ 2x + y = 5 ...</p>
+                            </button>
+                            <button class="solver-card" data-solver="matrix">
+                                <h3>Matrix</h3>
+                                <p>[[a,b],[c,d]]</p>
+                            </button>
+                        </div>
+
+                        <div id="solver-forms-container" class="hidden">
+                            <button class="back-btn">← Back</button>
+                            <div id="active-solver-form"></div>
+                            <div id="solver-result"></div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- RIGHT PANEL: Persistent Static Numpad -->
+                <div class="static-numpad">
+                    <button class="btn btn-op" data-val="C">C</button>
+                    <button class="btn btn-op" data-val="del">⌫</button>
+                    <button class="btn btn-op" data-val="%">%</button>
+                    <button class="btn btn-op" data-val="/">÷</button>
+
+                    <button class="btn btn-num" data-val="7">7</button>
+                    <button class="btn btn-num" data-val="8">8</button>
+                    <button class="btn btn-num" data-val="9">9</button>
+                    <button class="btn btn-op" data-val="*">×</button>
+
+                    <button class="btn btn-num" data-val="4">4</button>
+                    <button class="btn btn-num" data-val="5">5</button>
+                    <button class="btn btn-num" data-val="6">6</button>
+                    <button class="btn btn-op" data-val="-">−</button>
+
+                    <button class="btn btn-num" data-val="1">1</button>
+                    <button class="btn btn-num" data-val="2">2</button>
+                    <button class="btn btn-num" data-val="3">3</button>
+                    <button class="btn btn-op" data-val="+">+</button>
+
+                    <button class="btn btn-func" data-val="(">(</button>
+                    <button class="btn btn-num" data-val="0">0</button>
+                    <button class="btn btn-num" data-val=".">.</button>
+                    <button class="btn btn-eq" data-val="=">=</button>
+                </div>
+
+            </div>
+        </main>
+
+        <div class="history-sidebar" id="historySidebar">
+            <h3>History</h3>
+            <div id="history-list"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
